@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Page Title</title>
+    <style>
+        #cars {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            transition: height 2s;
+        }
+
+        #cars td,
+        #cars th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #cars tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #cars tr:hover {
+            background-color: #ddd;
+        }
+
+        #cars th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+
+
+        .w3-btn,
+        .w3-button {
+            border: none;
+            display: inline-block;
+            padding: 8px 16px;
+            vertical-align: middle;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            background-color: inherit;
+            text-align: center;
+            cursor: pointer;
+            white-space: nowrap
+        }
+
+        .w3-btn:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+        }
+
+        .w3-btn,
+        .w3-button {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none
+        }
+
+        .w3-btn,
+        .w3-btn:link,
+        .w3-btn:visited {
+            color: #FFFFFF;
+            background-color: #28209c
+        }
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <h1>My First Heading</h1>
+    <p>My first paragraph. </p>
+    <button type="button" class="w3-btn" id="get-cars">Klik hier om de autovoorraad op te halen</button>
+    <button type="button" class="w3-btn" id="make-zero-height">Maak hoogte 0</button>
+    <div id="display-stock">
+    </div>
+
+    <div></div>
+    <div/>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#make-zero-height").click(function () {
+                $('#cars').height(10);
+            });
+
+            $('#get-cars').click(function () {
+                debugger;
+                let carsTable = $("#cars");
+                if (carsTable.length > 0) {
+                    let tableDiv = $('#display-stock');
+                    tableDiv.html("");
+                } else {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'json',
+                        url: 'cars',
+                        success: function (result) {
+                            console.log(result);
+                            let output = '<table id="cars"><thead><tr><th>Merk</th><th>Type</th><th>Bouwjaar</th><th>Prijs</th></tr></thead><tbody>';
+                            for (var i in result) {
+                                output += '<tr><td>' + result[i].merk + '</td><td>' + result[i].type + '</td><td>' + result[i].bouwjaar + '</td><td>' + result[i].prijs + '</td></tr>';
+                            }
+                            output = output + '</tbody></table>';
+
+                            // $('#display-stock').html(output);
+                            let tableDiv = $('#display-stock');
+                            tableDiv.html(output);
+
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

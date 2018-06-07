@@ -46,3 +46,22 @@ let p2 = new Polygon(10,30)
 
 console.log(p1.name + ' hoogte:' + p1.height + ', breedte: ' + p1.width)
 console.log(p2.name + ' hoogte:' + p2.height + ', breedte: ' + p2.width)
+
+
+(function () {
+    alert('Hello there1');
+})();
+
+(function (name) {
+    alert('Hello there1 ' + name);
+})('test');
+
+(function () {
+    alert('Hello there2');
+}());
+
+(function (factory) {
+    alert('Hello there3');
+})(function () {
+
+});

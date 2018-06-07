@@ -31,6 +31,8 @@ const bodyParser = require('body-parser')
 // Vooral bij de PUT en POST HTTP call maken we gebruik van de body property van de req (request) parameter
 app.use(bodyParser.json())
 
+app.use(createExpressApplication.static('public'))
+
 // Definieer een filter object voor alle HTTP calls met de route /cars
 app.all('/cars', function (req, res, next) {
 	console.log('Accessing the secret section ...')
@@ -43,6 +45,23 @@ app.get('/', (req, res) => res.json({ hello: 'This is a JSON REST service in Jav
 
 app.get('/cars', function (req, res) {
 	let stockCopy = stock.slice()
+	if (req.query.prijsLaag && req.query.prijsHoog) {
+		stockCopy = stockCopy.filter(function (stockCar) {
+			let laag = parseInt(req.query.prijsLaag)
+			let hoog = parseInt(req.query.prijsHoog)
+			return stockCar.prijs >= laag && stockCar.prijs <= hoog
+		});
+	} else if (req.query.prijsLaag) {
+		stockCopy = stockCopy.filter(function (stockCar) {
+			let laag = parseInt(req.query.prijsLaag)
+			return stockCar.prijs >= laag
+		});
+	} else if (req.query.prijsHoog) {
+		stockCopy = stockCopy.filter(function (stockCar) {
+			let hoog = parseInt(req.query.prijsHoog)
+			return stockCar.prijs <= hoog
+		});
+	}
 	if (req.query.sort) {
 		if (req.query.sort === 'prijs') {
 			stockCopy.sort(function (a, b) { return a.prijs - b.prijs })
@@ -72,10 +91,14 @@ app.get('/cars/:id', function (req, res) {
 app.post('/cars', function (req, res) {
 	// Haal alle serienummers op uit de voorraad en plaats deze in een nieuwe array
 	let serialNumbers = Array.from(stock, car => car.serienummer)
-	// Haal de maximum waarde van de serienummers op uit de array
-	let max = Math.max(...serialNumbers)
-	// Ken een nieuwe waarde toe aan het serienummer van de nieuwe auto en neem daarvoor de max + 1
-	req.body.serienummer = ++max
+	if (serialNumbers.length > 0) {
+		// Haal de maximum waarde van de serienummers op uit de array
+		let max = Math.max(...serialNumbers)
+		// Ken een nieuwe waarde toe aan het serienummer van de nieuwe auto en neem daarvoor de max + 1
+		req.body.serienummer = ++max
+	} else {
+		req.body.serienummer = Math.floor((Math.random() * 100000) + 1);
+	}
 	// Voeg de nieuwe auto toe aan de voorraad
 	stock.push(req.body)
 	// Stuur een HTTP status 201 en een body met de nieuwe auto terug naar de client
