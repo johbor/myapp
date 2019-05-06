@@ -31,7 +31,6 @@
 <body>
 
     <div id="top-bar">
-
     </div>
 
     <div id="stock-list"></div>
@@ -182,7 +181,7 @@
                     } else {
                         pages = totalRows / PAGE_ROWS;
                     }
-                        
+
                     // Find the page where our row fits in
                     let min = 0;
                     let max = PAGE_ROWS - 1;
@@ -251,7 +250,7 @@
                     } else {
                         pages = totalRows / PAGE_ROWS;
                     }
-                        
+
                     // Find the page where our row fits in
                     let min = 0;
                     let max = PAGE_ROWS - 1;
@@ -294,12 +293,12 @@
                 method: "DELETE",
                 dataType: "json",
                 success: function (newCar, textStatus, jqXHRta) {
-                    
+
                     let selectedCar = $('#stock-list').puidatatable('getSelection')[0];
                     let rowIndex = viewModel.stock.indexOf(selectedCar); // remember row index original data
                     viewModel.stock.remove(selectedCar); // remove the current car from the stock list
                     $('#stock-list').puidatatable('reload'); // reload the datasource of the datatable
-                    
+
                     let currentPage = 0;
                     let totalRows = viewModel.stock().length;
                     if (totalRows > 0) {
@@ -318,7 +317,7 @@
                         } else {
                             pages = totalRows / PAGE_ROWS;
                         }
-                            
+
                         // Find the page where our row fits in
                         let min = 0;
                         let max = PAGE_ROWS - 1;

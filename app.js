@@ -73,7 +73,7 @@ app.get('/cars', function (req, res) {
 })
 
 app.get('/cars/:id', function (req, res) {
-	let carId = reqarams.id
+	let carId = req.params.id
 	let car = stock.find(stockCar => stockCar.serienummer == carId)
 	if (car !== undefined) {
 		res.status(200).json(car)

@@ -7,13 +7,7 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Launch test",
-			"program": "${workspaceFolder}/test.js"
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "Launch app",
+			"name": "Launch server app",
 			"program": "${workspaceFolder}/app.js"
 		}
 	]
