@@ -27,7 +27,7 @@ if (a === b) {
 
 
 var c = function () {
-    console.log("saddsa")
+    console.log("saddsdwewewqa")
     return 1
 }
 
